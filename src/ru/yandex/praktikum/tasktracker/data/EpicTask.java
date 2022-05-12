@@ -1,10 +1,11 @@
 package ru.yandex.praktikum.tasktracker.data;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EpicTask extends Task {
 
-    public ArrayList<Subtask> subtasks = new ArrayList<>();
+    final ArrayList<Subtask> subtasks = new ArrayList<>();
 
     public EpicTask(String name, String discription) {
         super(name, discription);
@@ -14,7 +15,7 @@ public class EpicTask extends Task {
         return subtasks;
     }
 
-    public void addSubtasks(Subtask task) {
+    public void addSubtask(Subtask task) {
         this.subtasks.add(task);
     }
 
@@ -37,6 +38,21 @@ public class EpicTask extends Task {
         } else {
             return String.valueOf(subtasks);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EpicTask epicTask = (EpicTask) o;
+        return Objects.equals(name, epicTask.name) && Objects.equals(discription, epicTask.discription) &&
+                Objects.equals(id, epicTask.id) && Objects.equals(status, epicTask.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode());
     }
 }
 
