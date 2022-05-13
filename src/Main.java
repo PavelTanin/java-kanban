@@ -23,9 +23,9 @@ public class Main {
         taskManager.addEpicTask(epic2);
         taskManager.addSubTask(sub3, 4);
 
-        System.out.println(taskManager.getSimpleTaskList());
-        System.out.println(taskManager.getEpicTaskList());
-        System.out.println(taskManager.getSubTaskList());
+        System.out.println(String.valueOf(taskManager.getSimpleTaskList()));
+        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
+        System.out.println(String.valueOf(taskManager.getSubTaskList()));
 
         Subtask sub4 = new Subtask("Спринт 3", "Работа почти завершена", 1);
         Subtask sub5 = new Subtask("Спринт 4", "Думаю, что быстро закончу", 1);
@@ -37,16 +37,16 @@ public class Main {
 
         taskManager.updateSubTask(5, sub6, "В процессе");
 
-        System.out.println(taskManager.getEpicTaskList());
+        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
 
         taskManager.deleteSubTaskById(2);
 
-        System.out.println(taskManager.getEpicTaskList());
+        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
 
         taskManager.deleteEpicTaskById(4);
 
-        System.out.println(taskManager.getEpicTaskList());
-        System.out.println(taskManager.getSubTaskList());
+        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
+        System.out.println(String.valueOf(taskManager.getSubTaskList()));
     }
 }
 

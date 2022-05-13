@@ -64,6 +64,6 @@ public class Task {
         return "Задача: " + id + "\n" +
                 "Название: " + name + "\n" +
                 "Описание: " + discription + "\n" +
-                "Состояние: " + status;
+                "Состояние: " + status + "\n";
     }
 }
