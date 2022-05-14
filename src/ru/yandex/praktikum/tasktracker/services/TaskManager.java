@@ -40,14 +40,14 @@ public class TaskManager {
         return simpleTasks.get(id);
     }
 
-    public void updateSimpleTask(int id, Task task, String status) {
+    public void updateSimpleTask(int id, Task task) {
         simpleTasks.get(id).setName(task.getName());
         simpleTasks.get(id).setDiscription(task.getDiscription());
-        if (status.equals("Новая")) {
+        if (task.getStatus().equals("Новая")) {
             subtasks.get(id).setStatus(String.valueOf(Status.NEW));
-        } else if (status.equals("В процессе")) {
+        } else if (task.getStatus().equals("В процессе")) {
             subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
-        } else if (status.equals("Выполнено")) {
+        } else if (task.getStatus().equals("Выполнено")) {
             subtasks.get(id).setStatus(String.valueOf(Status.DONE));
         }
     }
@@ -121,19 +121,23 @@ public class TaskManager {
         epics.remove(id);
     }
 
-    public ArrayList<Integer> getSubTaskOfEpicList(int id) {
-        ArrayList<Integer> result = epics.get(id).getSubtasks();
+    public ArrayList<Subtask> getSubTaskOfEpicList(int id) {
+        ArrayList<Subtask> result = new ArrayList<>();
+        ArrayList<Integer> subIds = epics.get(id).getSubtasks();
+        for (Integer subId : subIds) {
+            result.add(subtasks.get(subId));
+        }
         return result;
     }
 
-    public void updateSubTask(int id, Subtask task, String status) {
+    public void updateSubTask(int id, Subtask task) {
         subtasks.get(id).setDiscription(task.getDiscription());
         subtasks.get(id).setName(task.getName());
-        if (status.equals("Новая")) {
+        if (task.getStatus().equals("Новая")) {
             subtasks.get(id).setStatus(String.valueOf(Status.NEW));
-        } else if (status.equals("В процессе")) {
+        } else if (task.getStatus().equals("В процессе")) {
             subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
-        } else if (status.equals("Выполнено")) {
+        } else if (task.getStatus().equals("Выполнено")) {
             subtasks.get(id).setStatus(String.valueOf(Status.DONE));
         }
         for (EpicTask item : epics.values()) {
