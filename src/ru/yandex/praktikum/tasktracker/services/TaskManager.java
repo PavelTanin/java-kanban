@@ -43,12 +43,16 @@ public class TaskManager {
     public void updateSimpleTask(int id, Task task) {
         simpleTasks.get(id).setName(task.getName());
         simpleTasks.get(id).setDiscription(task.getDiscription());
-        if (task.getStatus().equals("Новая")) {
-            subtasks.get(id).setStatus(String.valueOf(Status.NEW));
-        } else if (task.getStatus().equals("В процессе")) {
-            subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
-        } else if (task.getStatus().equals("Выполнено")) {
-            subtasks.get(id).setStatus(String.valueOf(Status.DONE));
+        switch (task.getStatus()) {
+            case "Новая":
+                subtasks.get(id).setStatus(String.valueOf(Status.NEW));
+                break;
+            case "В процессе":
+                subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
+                break;
+            case "Выполнено":
+                subtasks.get(id).setStatus(String.valueOf(Status.DONE));
+                break;
         }
     }
 
@@ -82,7 +86,7 @@ public class TaskManager {
         } else if (doneStatusCount == subtasksId.size()) {
             task.setStatus(String.valueOf(Status.DONE));
         } else {
-            task.setStatus(String.valueOf(Status.IN_PROGRESS));;
+            task.setStatus(String.valueOf(Status.IN_PROGRESS));
         }
     }
 
@@ -133,12 +137,16 @@ public class TaskManager {
     public void updateSubTask(int id, Subtask task) {
         subtasks.get(id).setDiscription(task.getDiscription());
         subtasks.get(id).setName(task.getName());
-        if (task.getStatus().equals("Новая")) {
-            subtasks.get(id).setStatus(String.valueOf(Status.NEW));
-        } else if (task.getStatus().equals("В процессе")) {
-            subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
-        } else if (task.getStatus().equals("Выполнено")) {
-            subtasks.get(id).setStatus(String.valueOf(Status.DONE));
+        switch (task.getStatus()) {
+            case "Новая":
+                subtasks.get(id).setStatus(String.valueOf(Status.NEW));
+                break;
+            case "В процессе":
+                subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
+                break;
+            case "Выполнено":
+                subtasks.get(id).setStatus(String.valueOf(Status.DONE));
+                break;
         }
         for (EpicTask item : epics.values()) {
             epicTaskStatus(item);
