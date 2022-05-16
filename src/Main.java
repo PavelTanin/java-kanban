@@ -1,12 +1,12 @@
 import ru.yandex.praktikum.tasktracker.data.EpicTask;
 import ru.yandex.praktikum.tasktracker.data.Subtask;
-import ru.yandex.praktikum.tasktracker.services.TaskManager;
+import ru.yandex.praktikum.tasktracker.services.InMemoryTaskManager;
 
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
         EpicTask epic1 = new EpicTask("Учиться", "Пройти курс java-разработчика", null);
         Subtask sub1 = new Subtask("Спринт 3", "Завершить спринт 3", null,  1);
@@ -23,30 +23,18 @@ public class Main {
         taskManager.addEpicTask(epic2);
         taskManager.addSubTask(sub3, 4);
 
-        System.out.println(String.valueOf(taskManager.getSimpleTaskList()));
-        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
-        System.out.println(String.valueOf(taskManager.getSubTaskList()));
+        taskManager.searchEpicTaskById(1);
 
-        Subtask sub4 = new Subtask("Спринт 3", "Работа почти завершена", "В процессе", 1);
-        Subtask sub5 = new Subtask("Спринт 4", "Думаю, что быстро закончу", "Выполнено", 1);
+        System.out.println(String.valueOf(taskManager.getHistory()));
 
-        taskManager.updateSubTask(2, sub4);
-        taskManager.updateSubTask(3, sub5);
+        taskManager.searchSubTaskById(5);
 
-        Subtask sub6 = new Subtask("Светильник", "Я в этом, кажется, ничего не понимаю", "В процессе", 4);
+        System.out.println(String.valueOf(taskManager.getHistory()));
 
-        taskManager.updateSubTask(5, sub6);
+        taskManager.searchSubTaskById(2);
 
-        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
+        System.out.println(String.valueOf(taskManager.getHistory()));
 
-        taskManager.deleteSubTaskById(2);
-
-        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
-
-        taskManager.deleteEpicTaskById(4);
-
-        System.out.println(String.valueOf(taskManager.getEpicTaskList()));
-        System.out.println(String.valueOf(taskManager.getSubTaskList()));
     }
 }
 

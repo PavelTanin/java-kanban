@@ -7,192 +7,50 @@ import ru.yandex.praktikum.tasktracker.data.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class TaskManager {
-    private Integer id = 0;
+public interface TaskManager {
 
-    private final HashMap<Integer, Task> simpleTasks = new HashMap<>();
+    void addSimpleTask(Task task);
 
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    ArrayList<Task> getSimpleTaskList();
 
-    private final HashMap<Integer, EpicTask> epics = new HashMap<>();
+    void deleteAllSimpleTask();
 
-    public void addSimpleTask(Task task) {
-        id = idGenerator();
-        task.setId(id);
-        task.setStatus(String.valueOf(Status.NEW));
-        simpleTasks.put(id, task);
-    }
+    Task searchSimpleTaskById(int id);
 
-    public ArrayList<Task> getSimpleTaskList() {
-        ArrayList<Task> result = new ArrayList<>();
-        for (Task item : simpleTasks.values()) {
-            result.add(item);
-        }
-        return result;
-    }
+    void updateSimpleTask(int id, Task task);
 
-    public void deleteAllSimpleTask() {
-        simpleTasks.clear();
-    }
+    void deleteSimpleTaskById(int id);
 
-    public Task searchSimpleTaskById(int id) {
-        return simpleTasks.get(id);
-    }
+    void addEpicTask(EpicTask task);
 
-    public void updateSimpleTask(int id, Task task) {
-        simpleTasks.get(id).setName(task.getName());
-        simpleTasks.get(id).setDiscription(task.getDiscription());
-        switch (task.getStatus()) {
-            case "Новая":
-                subtasks.get(id).setStatus(String.valueOf(Status.NEW));
-                break;
-            case "В процессе":
-                subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
-                break;
-            case "Выполнено":
-                subtasks.get(id).setStatus(String.valueOf(Status.DONE));
-                break;
-        }
-    }
+    void epicTaskStatus(EpicTask task);
 
-    public void deleteSimpleTaskById(int id) {
-        simpleTasks.remove(id);
-    }
+    ArrayList<EpicTask> getEpicTaskList();
 
-    public void addEpicTask(EpicTask task) {
-        id = idGenerator();
-        task.setId(id);
-        epicTaskStatus(task);
-        epics.put(id, task);
-    }
+    void deleteAllEpicTask();
 
-    private void epicTaskStatus(EpicTask task) {
-        int newStatusCount = 0;
-        int doneStatusCount = 0;
-        ArrayList<Integer> subtasksId = task.getSubtasks();
-        if (subtasksId.isEmpty()) {
-            task.setStatus(String.valueOf(Status.NEW));
-        }
-        for (Integer id : subtasksId) {
-            if (subtasks.get(id).getStatus().equals(String.valueOf(Status.NEW))) {
-                newStatusCount++;
-            } else if (subtasks.get(id).getStatus().equals(String.valueOf(Status.DONE))) {
-                doneStatusCount++;
-            }
-        }
-        if (newStatusCount == subtasksId.size()) {
-            task.setStatus(String.valueOf(Status.NEW));
-        } else if (doneStatusCount == subtasksId.size()) {
-            task.setStatus(String.valueOf(Status.DONE));
-        } else {
-            task.setStatus(String.valueOf(Status.IN_PROGRESS));
-        }
-    }
+    EpicTask searchEpicTaskById(int id);
 
+    void updateEpicTask(int id, EpicTask task);
 
-    public ArrayList<EpicTask> getEpicTaskList() {
-        ArrayList<EpicTask> result = new ArrayList<>();
-        for (EpicTask item : epics.values()) {
-            epicTaskStatus(item);
-            result.add(item);
-        }
-        return result;
-    }
+    void deleteEpicTaskById(int id);
 
-    public void deleteAllEpicTask() {
-        epics.clear();
-        subtasks.clear();
-    }
+    ArrayList<Subtask> getSubTaskOfEpicList(int id);
 
-    public EpicTask searchEpicTaskById(int id) {
-        if (epics.get(id) == null) {
-            return null;
-        }
-        return epics.get(id);
-    }
+    void updateSubTask(int id, Subtask task);
 
-    public void updateEpicTask(int id, EpicTask task) {
-        epics.get(id).setName(task.getName());
-        epics.get(id).setDiscription(task.getDiscription());
-    }
+    Subtask searchSubTaskById(int id);
 
-    public void deleteEpicTaskById(int id) {
-        ArrayList<Integer> subtasksId = epics.get(id).getSubtasks();
-        for (Integer subtaskId : subtasksId) {
-            subtasks.remove(subtaskId);
-        }
-        epics.remove(id);
-    }
+    void deleteAllSubTask();
 
-    public ArrayList<Subtask> getSubTaskOfEpicList(int id) {
-        ArrayList<Subtask> result = new ArrayList<>();
-        ArrayList<Integer> subIds = epics.get(id).getSubtasks();
-        for (Integer subId : subIds) {
-            result.add(subtasks.get(subId));
-        }
-        return result;
-    }
+    void addSubTask(Subtask task, int epicTaskId);
 
-    public void updateSubTask(int id, Subtask task) {
-        subtasks.get(id).setDiscription(task.getDiscription());
-        subtasks.get(id).setName(task.getName());
-        switch (task.getStatus()) {
-            case "Новая":
-                subtasks.get(id).setStatus(String.valueOf(Status.NEW));
-                break;
-            case "В процессе":
-                subtasks.get(id).setStatus(String.valueOf(Status.IN_PROGRESS));
-                break;
-            case "Выполнено":
-                subtasks.get(id).setStatus(String.valueOf(Status.DONE));
-                break;
-        }
-        for (EpicTask item : epics.values()) {
-            epicTaskStatus(item);
-        }
-    }
+    ArrayList<Subtask> getSubTaskList();
 
-    public Subtask searchSubTaskById(int id) {
-        if (subtasks.get(id) == null) {
-            return null;
-        }
-        return subtasks.get(id);
-    }
+    void deleteSubTaskById(int id);
 
-    public void deleteAllSubTask() {
-        for (EpicTask item : epics.values()) {
-            item.removeAllSubTasks();
-        }
-        subtasks.clear();
-    }
-
-    public void addSubTask(Subtask task, int epicTaskId) {
-        id = idGenerator();
-        task.setId(id);
-        task.setStatus(String.valueOf(Status.NEW));
-        task.setEpicName(epics.get(epicTaskId).getName());
-        subtasks.put(id, task);
-        epics.get(epicTaskId).addSubtask(id);
-    }
-
-    public ArrayList<Subtask> getSubTaskList() {
-        ArrayList<Subtask> result = new ArrayList<>();
-        for (Subtask item : subtasks.values()) {
-            result.add(item);
-        }
-        return result;
-    }
-
-    public void deleteSubTaskById(int id) {
-        epics.get(subtasks.get(id).getEpicId()).removeSubTask(subtasks.get(id).getId());
-        subtasks.remove(id);
-    }
-
-    private int idGenerator() {
-        id++;
-        return id;
-    }
-
+    List<Task> getHistory();
 
 }
