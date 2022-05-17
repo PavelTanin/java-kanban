@@ -25,14 +25,33 @@ public class Main {
 
         taskManager.searchEpicTaskById(1);
 
+        System.out.println("История после просмотра одной задачи");
         System.out.println(String.valueOf(taskManager.getHistory()));
 
         taskManager.searchSubTaskById(5);
 
+        System.out.println("История после просмотра двух задач");
         System.out.println(String.valueOf(taskManager.getHistory()));
 
         taskManager.searchSubTaskById(2);
 
+        System.out.println("История после просмотра трех задач");
+        System.out.println(String.valueOf(taskManager.getHistory()));
+
+        taskManager.searchSubTaskById(2);
+        taskManager.searchSubTaskById(2);
+        taskManager.searchSubTaskById(2);
+        taskManager.searchSubTaskById(2);
+        taskManager.searchSubTaskById(2);
+        taskManager.searchSubTaskById(2);
+        taskManager.searchSubTaskById(2);
+
+        System.out.println("История после просмотра десяти задач");
+        System.out.println(String.valueOf(taskManager.getHistory()));
+
+
+        System.out.println("Теперь вызываем 11-ю по счету задачу и проверяем историю");
+        taskManager.searchEpicTaskById(1);
         System.out.println(String.valueOf(taskManager.getHistory()));
 
     }

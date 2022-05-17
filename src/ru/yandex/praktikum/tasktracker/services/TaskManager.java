@@ -1,19 +1,16 @@
 package ru.yandex.praktikum.tasktracker.services;
 
 import ru.yandex.praktikum.tasktracker.data.EpicTask;
-import ru.yandex.praktikum.tasktracker.data.Status;
 import ru.yandex.praktikum.tasktracker.data.Subtask;
 import ru.yandex.praktikum.tasktracker.data.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public interface TaskManager {
 
     void addSimpleTask(Task task);
 
-    ArrayList<Task> getSimpleTaskList();
+    List<Task> getSimpleTaskList();
 
     void deleteAllSimpleTask();
 
@@ -25,9 +22,7 @@ public interface TaskManager {
 
     void addEpicTask(EpicTask task);
 
-    void epicTaskStatus(EpicTask task);
-
-    ArrayList<EpicTask> getEpicTaskList();
+    List<EpicTask> getEpicTaskList();
 
     void deleteAllEpicTask();
 
@@ -37,7 +32,7 @@ public interface TaskManager {
 
     void deleteEpicTaskById(int id);
 
-    ArrayList<Subtask> getSubTaskOfEpicList(int id);
+    List<Subtask> getSubTaskOfEpicList(int id);
 
     void updateSubTask(int id, Subtask task);
 
@@ -47,7 +42,7 @@ public interface TaskManager {
 
     void addSubTask(Subtask task, int epicTaskId);
 
-    ArrayList<Subtask> getSubTaskList();
+    List<Subtask> getSubTaskList();
 
     void deleteSubTaskById(int id);
 

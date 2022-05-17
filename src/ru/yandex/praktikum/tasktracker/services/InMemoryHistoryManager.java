@@ -2,12 +2,12 @@ package ru.yandex.praktikum.tasktracker.services;
 
 import ru.yandex.praktikum.tasktracker.data.Task;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class InMemoryHistoryManager implements HistoryManager {
+public class InMemoryHistoryManager implements HistoryManager{
 
-    private List<Task> historyList = new ArrayList<>();
+    private final List<Task> historyList = new LinkedList<>();
 
     @Override
     public void addTask(Task task) {
@@ -17,7 +17,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         historyList.add(task);
 
     }
-
     @Override
     public List<Task> getHistory() {
         return historyList;

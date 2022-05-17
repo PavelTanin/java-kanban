@@ -41,9 +41,7 @@ public class EpicTask extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         EpicTask epicTask = (EpicTask) o;
-        return Objects.equals(name, epicTask.name) && Objects.equals(discription, epicTask.discription) &&
-                Objects.equals(id, epicTask.id) && Objects.equals(status, epicTask.status) &&
-                Objects.equals(subtasks, epicTask.subtasks);
+        return Objects.equals(subtasks, epicTask.subtasks);
     }
 
     @Override
