@@ -2,34 +2,29 @@ package ru.yandex.praktikum.tasktracker.services;
 
 import ru.yandex.praktikum.tasktracker.data.Task;
 
+import java.nio.file.Path;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private Node head = new Node(null, null, null);
-    private Node tail = new Node(null, null, null);
+    Node<Task> head;
+    Node<Task> tail;
 
 
-    private Map<Integer, Node> nodesList = new HashMap<>();
+    private final Map<Integer, Node<Task>> nodesList = new HashMap<>();
 
     @Override
-    public void addTask(Task task) {
+    public void linkLast(Task task) {
         if (nodesList.isEmpty()) {
-            head = new Node(null, task, tail);
-            tail.prevNode = head;
+            Node<Task> newNode = new Node<>(null, task, null);
+            final Node<Task> oldHead = head;
+            newNode.prevNode = oldHead;
+            head = newNode;
+            tail = newNode;
             nodesList.put(task.getId(), head);
-        } else {
-            linkLast(new Node<>(null, task, null), task.getId());
-        }
-    }
-
-
-
-
-    private void linkLast(Node newNode, int id) {
-        var recurringNode = nodesList.get(id);
-        if (nodesList.containsKey(id)) {
-            final Node oldTail = tail;
+        } else if (nodesList.containsKey(task.getId())) {
+            var recurringNode = nodesList.get(task.getId());
+            final Node<Task> oldTail = tail;
             tail = recurringNode;
             oldTail.nextNode = tail;
             if (recurringNode.prevNode == null) {
@@ -42,7 +37,8 @@ public class InMemoryHistoryManager implements HistoryManager {
             recurringNode.prevNode = oldTail;
             recurringNode.nextNode = null;
         } else {
-            final Node oldTail = tail;
+            Node<Task> newNode = new Node<>(null, task, null);
+            final Node<Task> oldTail = tail;
             newNode.prevNode = oldTail;
             tail = newNode;
             if (oldTail == null) {
@@ -50,39 +46,36 @@ public class InMemoryHistoryManager implements HistoryManager {
             } else {
                 oldTail.nextNode = newNode;
             }
-            nodesList.put(id, tail);
+            nodesList.put(task.getId(), tail);
         }
     }
 
 
+    @Override
     public void remove(int id) {
-        removeNode(nodesList.get(id));
+        var currentNode = nodesList.get(id);
+        if (currentNode.prevNode != null) {
+            currentNode.prevNode.nextNode = nodesList.get(id).nextNode;
+        } else {
+            currentNode.nextNode = head;
+            currentNode.nextNode.prevNode = null;
+        }
+        if (currentNode.nextNode != null) {
+            currentNode.nextNode.prevNode = nodesList.get(id).prevNode;
+        } else {
+            currentNode.prevNode = tail;
+            currentNode.prevNode.nextNode = null;
+        }
         nodesList.remove(id);
     }
 
-    public void removeNode(Node node) {
-        if (!(node.prevNode == null)) {
-            node.prevNode.nextNode = node.nextNode;
-        } else {
-            node.nextNode.prevNode = null;
-        }
-        if (!(node.nextNode == null)) {
-            node.nextNode.prevNode = node.prevNode;
-        } else {
-            node.prevNode.nextNode = null;
-        }
-    }
 
     @Override
     public List<Task> getHistory() {
-        return getTasks();
-    }
-
-    public List<Task> getTasks() {
         if (nodesList.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         } else {
-            Node currentNode = head;
+            Node<Task> currentNode = head;
             List<Task> result = new ArrayList<>();
             while (!(currentNode == null)) {
                 result.add((Task) currentNode.task);
@@ -93,12 +86,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
 
-    public class Node<Task> {
-        private Task task;
-        private Node<Task> prevNode;
-        private Node<Task> nextNode;
+    public class Node<E> {
+        private E task;
+        private Node<E> prevNode;
+        private Node<E> nextNode;
 
-        public Node(Node prevNode, Task task, Node nextNode) {
+        public Node(Node prevNode, E task, Node nextNode) {
             this.task = task;
             this.prevNode = prevNode;
             this.nextNode = nextNode;
