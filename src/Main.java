@@ -42,6 +42,11 @@ public class Main {
         System.out.println(String.valueOf(Manager.getDefault().getHistory()));
         System.out.println("______________________________________");
 
+        Manager.getDefault().deleteEpicTaskById(5);
+        System.out.println(String.valueOf(Manager.getDefault().getHistory()));
+        System.out.println("______________________________________");
+
+
         Manager.getDefault().deleteEpicTaskById(1);
         if (Manager.getDefault().getHistory().isEmpty()) {
             System.out.println("Все работает как надо!");

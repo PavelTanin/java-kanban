@@ -6,8 +6,8 @@ import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    Node<Task> head;
-    Node<Task> tail;
+    private Node<Task> head;
+    private Node<Task> tail;
 
 
     private final Map<Integer, Node<Task>> nodesList = new HashMap<>();
@@ -52,20 +52,22 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        var currentNode = nodesList.get(id);
-        if (currentNode.prevNode != null) {
-            currentNode.prevNode.nextNode = nodesList.get(id).nextNode;
-        } else {
-            currentNode.nextNode = head;
-            currentNode.nextNode.prevNode = null;
+        if (nodesList.containsKey(id) && nodesList.get(id) != null) {
+            var currentNode = nodesList.get(id);
+            if (currentNode.prevNode != null) {
+                currentNode.prevNode.nextNode = nodesList.get(id).nextNode;
+            } else {
+                currentNode.nextNode = head;
+                currentNode.nextNode.prevNode = null;
+            }
+            if (currentNode.nextNode != null) {
+                currentNode.nextNode.prevNode = nodesList.get(id).prevNode;
+            } else {
+                currentNode.prevNode = tail;
+                currentNode.prevNode.nextNode = null;
+            }
+            nodesList.remove(id);
         }
-        if (currentNode.nextNode != null) {
-            currentNode.nextNode.prevNode = nodesList.get(id).prevNode;
-        } else {
-            currentNode.prevNode = tail;
-            currentNode.prevNode.nextNode = null;
-        }
-        nodesList.remove(id);
     }
 
 
