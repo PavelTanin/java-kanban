@@ -52,7 +52,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        if (nodesList.containsKey(id) && nodesList.get(id) != null) {
             var currentNode = nodesList.get(id);
             if (currentNode.prevNode != null) {
                 currentNode.prevNode.nextNode = nodesList.get(id).nextNode;
@@ -67,7 +66,6 @@ public class InMemoryHistoryManager implements HistoryManager {
                 currentNode.prevNode.nextNode = null;
             }
             nodesList.remove(id);
-        }
     }
 
 
