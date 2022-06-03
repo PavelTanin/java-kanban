@@ -2,7 +2,6 @@ package ru.yandex.praktikum.tasktracker.services;
 
 import ru.yandex.praktikum.tasktracker.data.Task;
 
-import java.nio.file.Path;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
