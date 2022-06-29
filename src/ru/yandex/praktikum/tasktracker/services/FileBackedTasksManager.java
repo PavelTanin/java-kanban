@@ -33,6 +33,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void deleteAllSimpleTask() {
         super.deleteAllSimpleTask();
+        save();
     }
 
     @Override
@@ -43,11 +44,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void updateSimpleTask(int id, Task task) {
         super.updateSimpleTask(id, task);
+        save();
     }
 
     @Override
     public void deleteSimpleTaskById(int id) {
         super.deleteSimpleTaskById(id);
+        save();
     }
 
     @Override
@@ -69,6 +72,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void deleteAllEpicTask() {
         super.deleteAllEpicTask();
+        save();
     }
 
     @Override
@@ -79,11 +83,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void updateEpicTask(int id, EpicTask task) {
         super.updateEpicTask(id, task);
+        save();
     }
 
     @Override
     public void deleteEpicTaskById(int id) {
         super.deleteEpicTaskById(id);
+        save();
     }
 
     @Override
@@ -94,6 +100,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void updateSubTask(int id, Subtask task) {
         super.updateSubTask(id, task);
+        save();
     }
 
     @Override
@@ -104,6 +111,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void deleteAllSubTask() {
         super.deleteAllSubTask();
+        save();
     }
 
     @Override
@@ -120,6 +128,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void deleteSubTaskById(int id) {
         super.deleteSubTaskById(id);
+        save();
     }
 
     @Override
