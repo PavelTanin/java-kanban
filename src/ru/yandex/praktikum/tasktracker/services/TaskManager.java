@@ -4,6 +4,7 @@ import ru.yandex.praktikum.tasktracker.data.EpicTask;
 import ru.yandex.praktikum.tasktracker.data.Subtask;
 import ru.yandex.praktikum.tasktracker.data.Task;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface TaskManager {
@@ -46,6 +47,6 @@ public interface TaskManager {
 
     void deleteSubTaskById(int id);
 
-    List<Task> getHistory();
+    List<Task> getHistory() throws IOException;
 
 }

@@ -12,11 +12,11 @@ import java.util.List;
 public class InMemoryTaskManager implements TaskManager {
     private Integer id = 0;
 
-    private final HashMap<Integer, Task> simpleTasks = new HashMap<>();
+    protected final HashMap<Integer, Task> simpleTasks = new HashMap<>();
 
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
-    private final HashMap<Integer, EpicTask> epics = new HashMap<>();
+    protected final HashMap<Integer, EpicTask> epics = new HashMap<>();
 
     @Override
     public void addSimpleTask(Task task) {

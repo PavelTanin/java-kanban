@@ -2,10 +2,12 @@ import ru.yandex.praktikum.tasktracker.data.EpicTask;
 import ru.yandex.praktikum.tasktracker.data.Subtask;
 import ru.yandex.praktikum.tasktracker.services.Manager;
 
+import java.io.IOException;
+
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         EpicTask epic1 = new EpicTask("Учиться", "Пройти курс java-разработчика", null);
         Subtask sub1 = new Subtask("Спринт 5", "Завершить спринт 5", null,  1);
