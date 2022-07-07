@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.tasktracker.services;
+package ru.yandex.praktikum.tasktracker.interfaces;
 
 import ru.yandex.praktikum.tasktracker.data.EpicTask;
 import ru.yandex.praktikum.tasktracker.data.Subtask;

@@ -4,13 +4,14 @@ import ru.yandex.praktikum.tasktracker.data.EpicTask;
 import ru.yandex.praktikum.tasktracker.data.Status;
 import ru.yandex.praktikum.tasktracker.data.Subtask;
 import ru.yandex.praktikum.tasktracker.data.Task;
+import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected static Integer id = 0;
+    protected Integer id = 0;
 
     protected final HashMap<Integer, Task> simpleTasks = new HashMap<>();
 

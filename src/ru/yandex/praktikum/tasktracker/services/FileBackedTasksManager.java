@@ -1,13 +1,15 @@
 package ru.yandex.praktikum.tasktracker.services;
 
 import ru.yandex.praktikum.tasktracker.data.*;
+import ru.yandex.praktikum.tasktracker.exceptions.ManagerSaveException;
+import ru.yandex.praktikum.tasktracker.interfaces.HistoryManager;
+import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
@@ -117,9 +119,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     private void save() {
+        Map<Integer, Task> allTasks = new HashMap<>();
+        allTasks.putAll(simpleTasks);
+        allTasks.putAll(epics);
+        allTasks.putAll(subtasks);
+        TreeMap<Integer, Task> sortedTasks = new TreeMap<>(allTasks);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,
                 StandardCharsets.UTF_8))) {
-            int key = simpleTasks.size() + epics.size() + subtasks.size();
             bw.append("id");
             bw.append(",");
             bw.append("type");
@@ -132,27 +138,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             bw.append(",");
             bw.append("epic");
             bw.append("\n");
-            for (int i = 0; i < key; i++) {
-                if (simpleTasks.containsKey(i + 1)) {
-                    bw.append(toString(simpleTasks.get(i + 1)));
-                } else if (epics.containsKey(i + 1)) {
-                    bw.append(toString(epics.get(i + 1)));
-                } else if (subtasks.containsKey(i + 1)) {
-                    bw.append(toString(subtasks.get(i + 1)));
-                }
+            for (Integer key : sortedTasks.keySet()) {
+                bw.append(toString(sortedTasks.get(key)));
             }
             bw.append("\n");
             bw.append(toString(historyManager));
-            if (file.length() == 0) {
-                throw new ManagerSaveException("Произошла ошибка при записи файла");
-            }
-        } catch (ManagerSaveException exception) {
-
         } catch (IOException exception) {
-
+            throw new ManagerSaveException("Произошла ошибка при записи файла");
         }
-
-
     }
 
     private String toString(Task task) {
@@ -208,26 +201,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     fileBackedTasksManager.subtasks.put(newTask.getId(), newTask);
                 }
             }
-            String[] history = items.get(items.size() - 1).split(",");
+            String[] history = items.get(items.size() - 1).split(", ");
             for (int i = 0; i < history.length; i++) {
-                if (fileBackedTasksManager.simpleTasks.containsKey(history[i])) {
-                    Manager.getDefault().searchSimpleTaskById(Integer.parseInt(history[i]));
-                } else if (fileBackedTasksManager.epics.containsKey(history[i])) {
-                    Manager.getDefault().searchEpicTaskById(Integer.parseInt(history[i]));
-                } else if (fileBackedTasksManager.subtasks.containsKey(history[i])) {
-                    Manager.getDefault().searchSubTaskById(Integer.parseInt(history[i]));
+                if (fileBackedTasksManager.simpleTasks.containsKey(Integer.parseInt(history[i]))) {
+                    fileBackedTasksManager.searchSimpleTaskById(Integer.parseInt(history[i]));
+                } else if (fileBackedTasksManager.epics.containsKey(Integer.parseInt(history[i]))) {
+                    fileBackedTasksManager.searchEpicTaskById(Integer.parseInt(history[i]));
+                } else if (fileBackedTasksManager.subtasks.containsKey((Integer.parseInt(history[i])))) {
+                    fileBackedTasksManager.searchSubTaskById(Integer.parseInt(history[i]));
                 }
-            FileBackedTasksManager.id = items.size() - 2;
+                fileBackedTasksManager.id = items.size() - 2;
             }
         } catch (IOException exception) {
+            throw new ManagerSaveException("Произошла ошибка при чтении файла");
         }
-
         return fileBackedTasksManager;
-
-    }
-
-    public void setId(FileBackedTasksManager fileBackedTasksManager) {
-        this.id = simpleTasks.size() + epics.size() + subtasks.size();
     }
 
     public static void main(String[] args) throws IOException {

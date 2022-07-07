@@ -1,5 +1,8 @@
 package ru.yandex.praktikum.tasktracker.services;
 
+import ru.yandex.praktikum.tasktracker.interfaces.HistoryManager;
+import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
+
 public class Manager<T extends TaskManager> {
 
     private static final TaskManager taskManager = new InMemoryTaskManager();

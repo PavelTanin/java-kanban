@@ -1,6 +1,7 @@
 package ru.yandex.praktikum.tasktracker.services;
 
 import ru.yandex.praktikum.tasktracker.data.Task;
+import ru.yandex.praktikum.tasktracker.interfaces.HistoryManager;
 
 import java.util.*;
 
