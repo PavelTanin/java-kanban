@@ -6,6 +6,7 @@ import ru.yandex.praktikum.tasktracker.data.Task;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
 
@@ -46,6 +47,8 @@ public interface TaskManager {
     List<Subtask> getSubTaskList();
 
     void deleteSubTaskById(int id);
+
+    List<Task> getPrioritizedTasks();
 
     List<Task> getHistory() throws IOException;
 

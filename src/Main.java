@@ -1,64 +1,31 @@
 import ru.yandex.praktikum.tasktracker.data.EpicTask;
+import ru.yandex.praktikum.tasktracker.data.Status;
 import ru.yandex.praktikum.tasktracker.data.Subtask;
-import ru.yandex.praktikum.tasktracker.services.Manager;
-
-import java.io.IOException;
-
+import ru.yandex.praktikum.tasktracker.data.Task;
+import ru.yandex.praktikum.tasktracker.services.InMemoryTaskManager;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        EpicTask epic1 = new EpicTask("Учиться", "Пройти курс java-разработчика", null);
-        Subtask sub1 = new Subtask("Спринт 5", "Завершить спринт 5", null,  1);
-        Subtask sub2 = new Subtask("Почитать", "Продолжить расширять свои познания Java", null, 1);
-        Subtask sub3 = new Subtask("Проверить код", "Убедиться что не осталось комментов", null, 1);
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
-        Manager.getDefault().addEpicTask(epic1);
-        Manager.getDefault().addSubTask(sub1, 1);
-        Manager.getDefault().addSubTask(sub2, 1);
-        Manager.getDefault().addSubTask(sub3, 1);
+        Task testSimpleTask = new Task("TestSimple_1", "Test", Status.NEW,
+                "16-07-2022, 16:30", 15);
+        Task testSimpleTask2 = new Task("TestSimple_2", "Test", Status.NEW,
+                "16-07-2022, 15:30", 15);
+        Task testSimpleTask3 = new Task("TestSimple_3", "Test", Status.NEW,
+                "16-07-2022, 18:30", 15);
+        EpicTask testEpicTask = new EpicTask("TestEpic_1", "TestEpic_1", null);
+        Subtask testSubtask = new Subtask("TestSubTask_1", "Test", Status.NEW, 1,
+                "16-07-2022, 19:30", 15);
+        Subtask testSubtask2 = new Subtask("TestSubTask_2", "Test", Status.NEW, 1,
+                "16-07-2022, 20:30", 15);
 
-        EpicTask epic2 = new EpicTask("Ремонт", "Доделать то, что не было сделано во время ремонта", null);
+       inMemoryTaskManager.addSimpleTask(testSimpleTask);
+       inMemoryTaskManager.deleteSimpleTaskById(1);
 
-
-        Manager.getDefault().addEpicTask(epic2);
-
-        Manager.getDefault().searchEpicTaskById(1);
-        Manager.getDefault().searchSubTaskById(2);
-        Manager.getDefault().searchSubTaskById(3);
-        Manager.getDefault().searchSubTaskById(4);
-        Manager.getDefault().searchEpicTaskById(5);
-        System.out.println(String.valueOf(Manager.getDefault().getHistory()));
-        System.out.println("______________________________________");
-
-        Manager.getDefault().searchSubTaskById(2);
-        Manager.getDefault().searchEpicTaskById(5);
-        Manager.getDefault().searchEpicTaskById(1);
-        Manager.getDefault().searchSubTaskById(4);
-        Manager.getDefault().searchSubTaskById(3);
-        System.out.println(String.valueOf(Manager.getDefault().getHistory()));
-        System.out.println("______________________________________");
-
-        Manager.getDefault().deleteEpicTaskById(5);
-        System.out.println(String.valueOf(Manager.getDefault().getHistory()));
-        System.out.println("______________________________________");
-
-        Manager.getDefault().deleteEpicTaskById(3);
-        System.out.println(String.valueOf(Manager.getDefault().getHistory()));
-        System.out.println("______________________________________");
-
-        Manager.getDefault().deleteEpicTaskById(5);
-        System.out.println(String.valueOf(Manager.getDefault().getHistory()));
-        System.out.println("______________________________________");
-
-
-        Manager.getDefault().deleteEpicTaskById(1);
-        if (Manager.getDefault().getHistory().isEmpty()) {
-            System.out.println("Все работает как надо!");
-        } else {
-            System.out.println("Что-то не так!");
-        }
+        System.out.println(inMemoryTaskManager.getPrioritizedTasks());
 
     }
 }

@@ -7,8 +7,8 @@ public class Subtask extends Task {
     private int epicId;
     private String epicName;
 
-    public Subtask(String name, String discription, Status status, int epicId) {
-        super(name, discription, status);
+    public Subtask(String name, String discription, Status status, int epicId, String startTime, Integer duration) {
+        super(name, discription, status, startTime, duration);
         this.epicId = epicId;
     }
 
@@ -34,7 +34,11 @@ public class Subtask extends Task {
                 "Название: " + name + "\n" +
                 "Описание: " + discription + "\n" +
                 "Подзадача проекта: " + epicNameInfo() + "\n" +
-                "Статус: " + status + "\n";
+                "Статус: " + status + "\n" +
+                "Начало выполнения: " + startTime.format(TIME_FORMAT) + "\n" +
+                "Планируемая продолжительность: " + duration.toHours() + " часов " +
+                duration.toMinutesPart() + " минут" + "\n" +
+                "Ожидаемое время завершения: " + endTime.format(TIME_FORMAT) + "\n";
     }
 
     public String epicNameInfo() {

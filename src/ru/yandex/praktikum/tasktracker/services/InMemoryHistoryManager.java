@@ -58,13 +58,13 @@ public class InMemoryHistoryManager implements HistoryManager {
             if (currentNode.prevNode != null) {
                 currentNode.prevNode.nextNode = nodesList.get(id).nextNode;
             } else {
-                currentNode.nextNode = head;
+                head = currentNode.nextNode;
                 currentNode.nextNode.prevNode = null;
             }
             if (currentNode.nextNode != null) {
                 currentNode.nextNode.prevNode = nodesList.get(id).prevNode;
             } else {
-                currentNode.prevNode = tail;
+                tail = currentNode.prevNode;
                 currentNode.prevNode.nextNode = null;
             }
             nodesList.remove(id);
