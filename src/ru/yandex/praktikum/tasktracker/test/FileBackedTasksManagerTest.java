@@ -1,12 +1,6 @@
 package ru.yandex.praktikum.tasktracker.test;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.yandex.praktikum.tasktracker.data.EpicTask;
-import ru.yandex.praktikum.tasktracker.data.Status;
-import ru.yandex.praktikum.tasktracker.data.Subtask;
-import ru.yandex.praktikum.tasktracker.data.Task;
-import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 import ru.yandex.praktikum.tasktracker.services.FileBackedTasksManager;
 
 import java.io.*;
@@ -17,12 +11,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class FileBackedTasksManagerTest extends TaskManagerTest {
+class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
     private File file = new File(".\\src\\", "testSaveFileEmpty.csv");
 
     @Override
-    TaskManager createManager() {
+    FileBackedTasksManager createManager() {
         return new FileBackedTasksManager(file);
     }
 
@@ -84,9 +78,9 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
         while (br.ready()) {
             readFromFile.add(br.readLine());
         }
-        assertEquals("1,EPIC,TestEpic_1,NEW,TestEpic_1,16-07-2022, 19:30,16-07-2022, 19:45,15", readFromFile.get(1));
-        assertEquals("2,TASK,TestSimple_1,NEW,Test,16-07-2022, 16:30,16-07-2022, 16:45,15", readFromFile.get(2));
-        assertEquals("3,SUBTASK,TestSubTask_1,NEW,Test,16-07-2022, 19:30,16-07-2022, 19:45,15,1", readFromFile.get(3));
+        assertEquals("1,EPIC,TestEpic_1,NEW,TestEpic_1,2022-07-16T19:30,2022-07-16T19:45,15", readFromFile.get(1));
+        assertEquals("2,TASK,TestSimple_1,NEW,Test,2022-07-16T16:30,2022-07-16T16:45,15", readFromFile.get(2));
+        assertEquals("3,SUBTASK,TestSubTask_1,NEW,Test,2022-07-16T19:30,2022-07-16T19:45,15,1", readFromFile.get(3));
         assertEquals("", readFromFile.get(readFromFile.size()-1));
     }
 

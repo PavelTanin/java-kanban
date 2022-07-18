@@ -6,6 +6,7 @@ import ru.yandex.praktikum.tasktracker.data.Task;
 import ru.yandex.praktikum.tasktracker.services.InMemoryHistoryManager;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -15,9 +16,12 @@ class InMemoryHistoryManagerTest {
 
 
     InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-    Task task = new Task("Test", "Test", Status.NEW, "16-07-2022, 16:30", 15);
-    Task task2 = new Task("Test2", "Test2", Status.NEW, "16-07-2022, 18:30", 15);
-    Task task3 = new Task("Test2", "Test2", Status.NEW, "16-07-2022, 19:30", 15);
+    Task task = new Task("Test", "Test", Status.NEW,
+            LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
+    Task task2 = new Task("Test2", "Test2", Status.NEW,
+            LocalDateTime.of(2022, 7, 16, 18, 30), 15L);
+    Task task3 = new Task("Test2", "Test2", Status.NEW,
+            LocalDateTime.of(2022, 7, 16, 19, 30), 15L);
 
 
     @Test

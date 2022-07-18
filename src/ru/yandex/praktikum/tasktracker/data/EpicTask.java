@@ -1,6 +1,5 @@
 package ru.yandex.praktikum.tasktracker.data;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -48,8 +47,7 @@ public class EpicTask extends Task {
             return "Подзадачи данной задачи пока не внесены, невозможно опредилить время выполнения!";
         } else {
             return "Начало выполнения: " + startTime.format(TIME_FORMAT) + "\n" +
-                    "Планируемая продолжительность: " + duration.toHours() + " часов " +
-                    duration.toMinutesPart() + " минут" + "\n" +
+                    "Планируемая продолжительность: " + duration + " минут" + "\n" +
                     "Ожидаемое время завершения: " + endTime.format(TIME_FORMAT) + "\n";
         }
     }

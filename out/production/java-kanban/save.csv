@@ -1,6 +1,4 @@
-id,type,name,status,description,epic
-1,TASK,Спринт 6,NEW,Дописать код
-2,EPIC,Спринт 7,NEW,Завершить новый спринт
-3,SUBTASK,Теория,NEW,Уделять 2 часа в день изучению материала,2
+id,type,name,status,description,start_time,end_time,duration,epic
+1,TASK,Task,NEW,Task_discr,2022-07-16T16:30,2022-07-16T16:45,15
 
-1, 2
+1

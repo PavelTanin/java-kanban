@@ -1,9 +1,7 @@
 package ru.yandex.praktikum.tasktracker.data;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
 import java.util.Objects;
 
 public class Task {
@@ -12,17 +10,17 @@ public class Task {
     protected String discription;
     protected Status status;
     protected LocalDateTime startTime;
+    protected Long duration;
     protected LocalDateTime endTime;
-    protected Duration duration;
-    protected DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm");
+    final static DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm");
 
-    public Task(String name, String discription, Status status, String startTime, Integer duration) {
+    public Task(String name, String discription, Status status, LocalDateTime startTime, Long duration) {
         this.name = name;
         this.discription = discription;
         this.status = status;
-        this.startTime = LocalDateTime.parse(startTime, TIME_FORMAT);
-        this.duration = Duration.ofMinutes(duration);
-        this.endTime = LocalDateTime.parse(startTime, TIME_FORMAT).plusMinutes(duration);
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = startTime.plusMinutes(duration);
         }
 
     public Task(String name, String discription, Status status) {
@@ -79,12 +77,21 @@ public class Task {
         this.endTime = endTime;
     }
 
-    public Duration getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
+        resetEndTime();
+    }
+
+    public void resetEndTime() {
+        if (this.duration != null) {
+            this.endTime = startTime.plusMinutes(duration);
+        } else {
+            this.endTime = null;
+        }
     }
 
     public DateTimeFormatter getTIME_FORMAT() {
@@ -114,8 +121,7 @@ public class Task {
                 "Описание: " + discription + "\n" +
                 "Состояние: " + status + "\n" +
                 "Начало выполнения: " + startTime.format(TIME_FORMAT) + "\n" +
-                "Планируемая продолжительность: " + duration.toHours() + " часов " +
-                duration.toMinutesPart() + " минут" + "\n" +
+                "Планируемая продолжительность: " + duration+ " минут" + "\n" +
                 "Ожидаемое время завершения: " + endTime.format(TIME_FORMAT) + "\n";
     }
 }

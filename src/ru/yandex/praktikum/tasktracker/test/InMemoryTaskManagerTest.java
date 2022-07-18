@@ -2,14 +2,12 @@ package ru.yandex.praktikum.tasktracker.test;
 
 
 import ru.yandex.praktikum.tasktracker.services.InMemoryTaskManager;
-import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 
-
-class InMemoryTaskManagerTest extends TaskManagerTest {
+class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
 
     @Override
-    TaskManager createManager() {
+    InMemoryTaskManager createManager() {
         return new InMemoryTaskManager();
     }
 }

@@ -1,14 +1,17 @@
-import ru.yandex.praktikum.tasktracker.data.EpicTask;
-import ru.yandex.praktikum.tasktracker.data.Status;
-import ru.yandex.praktikum.tasktracker.data.Subtask;
-import ru.yandex.praktikum.tasktracker.data.Task;
-import ru.yandex.praktikum.tasktracker.services.InMemoryTaskManager;
+/*import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        LocalDateTime start = LocalDateTime.of(2022, 7, 18, 19, 30);
+        LocalDateTime end = LocalDateTime.of(2022, 7, 18, 19, 30);
+        Long duration;
+
+        duration = Duration.between(start, end).toMinutes();
+
+        /*InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
         Task testSimpleTask = new Task("TestSimple_1", "Test", Status.NEW,
                 "16-07-2022, 16:30", 15);
@@ -28,5 +31,6 @@ public class Main {
         System.out.println(inMemoryTaskManager.getPrioritizedTasks());
 
     }
-}
+    }
+} */
 

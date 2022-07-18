@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.tasktracker.data;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -7,7 +8,7 @@ public class Subtask extends Task {
     private int epicId;
     private String epicName;
 
-    public Subtask(String name, String discription, Status status, int epicId, String startTime, Integer duration) {
+    public Subtask(String name, String discription, Status status, int epicId, LocalDateTime startTime, Long duration) {
         super(name, discription, status, startTime, duration);
         this.epicId = epicId;
     }
@@ -36,8 +37,7 @@ public class Subtask extends Task {
                 "Подзадача проекта: " + epicNameInfo() + "\n" +
                 "Статус: " + status + "\n" +
                 "Начало выполнения: " + startTime.format(TIME_FORMAT) + "\n" +
-                "Планируемая продолжительность: " + duration.toHours() + " часов " +
-                duration.toMinutesPart() + " минут" + "\n" +
+                "Планируемая продолжительность: " + duration + " минут" + "\n" +
                 "Ожидаемое время завершения: " + endTime.format(TIME_FORMAT) + "\n";
     }
 

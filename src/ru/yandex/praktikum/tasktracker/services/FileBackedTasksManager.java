@@ -7,7 +7,6 @@ import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -161,19 +160,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                         task.getStatus(), task.getDiscription());
             } else {
                 return String.format("%s,%s,%s,%s,%s,%s,%s,%s\n", task.getId(), Type.EPIC, task.getName(),
-                        task.getStatus(), task.getDiscription(), task.getStartTime().format(task.getTIME_FORMAT()),
-                        task.getEndTime().format(task.getTIME_FORMAT()), task.getDuration().toMinutesPart());
+                        task.getStatus(), task.getDiscription(), task.getStartTime(),
+                        task.getEndTime(), task.getDuration());
             }
         } else if (task instanceof Subtask) {
             Subtask subtask = (Subtask) task;
             return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s\n", subtask.getId(), Type.SUBTASK, subtask.getName(),
-                    subtask.getStatus(), subtask.getDiscription(), subtask.getStartTime().format(task.getTIME_FORMAT()),
-                    subtask.getEndTime().format(task.getTIME_FORMAT()), subtask.getDuration().toMinutesPart(),
+                    subtask.getStatus(), subtask.getDiscription(), subtask.getStartTime(),
+                    subtask.getEndTime(), subtask.getDuration(),
                     subtask.getEpicId());
         } else {
             return String.format("%s,%s,%s,%s,%s,%s,%s,%s\n", task.getId(), Type.TASK, task.getName(), task.getStatus(),
-                    task.getDiscription(), task.getStartTime().format(task.getTIME_FORMAT()),
-                    task.getEndTime().format(task.getTIME_FORMAT()), task.getDuration().toMinutesPart());
+                    task.getDiscription(), task.getStartTime(),
+                    task.getEndTime(), task.getDuration());
         }
     }
 
@@ -195,7 +194,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         try (BufferedReader br = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             List<String> items = new ArrayList<>();
             int countTaskLoad = 0;
-            int howLongReadTasks = 0;
             while (br.ready()) {
                 items.add(br.readLine());
             }
@@ -205,8 +203,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     if (task.length > 1) {
                         if (task[1].equals(String.valueOf(Type.TASK))) {
                             countTaskLoad++;
-                            Task newTask = new Task(task[2], task[4], Status.valueOf(task[3]), task[5] + "," + task[6], Integer.parseInt(task[9]));
-                            newTask.setEndTime(LocalDateTime.parse(task[7] + "," + task[8], newTask.getTIME_FORMAT()));
+                            Task newTask = new Task(task[2], task[4], Status.valueOf(task[3]), LocalDateTime.parse(task[5]), Long.parseLong(task[7]));
                             newTask.setId(Integer.parseInt(task[0]));
                             fileBackedTasksManager.simpleTasks.put(newTask.getId(), newTask);
                         } else if (task[1].equals(String.valueOf(Type.EPIC))) {
@@ -217,9 +214,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                                 newTask.setStatus(Status.valueOf(task[3]));
                             }
                             if (!task[5].equals("null")) {
-                                newTask.setStartTime(LocalDateTime.parse(task[5] + "," + task[6], newTask.getTIME_FORMAT()));
-                                newTask.setEndTime(LocalDateTime.parse(task[7] + "," + task[8], newTask.getTIME_FORMAT()));
-                                newTask.setDuration(Duration.ofMinutes(Integer.parseInt(task[9])));
+                                newTask.setStartTime(LocalDateTime.parse(task[5]));
+                                newTask.setDuration(Long.parseLong(task[7]));
                             } else {
                                 newTask.setStartTime(null);
                                 newTask.setEndTime(null);
@@ -228,9 +224,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                             fileBackedTasksManager.epics.put(newTask.getId(), newTask);
                         } else if (task[1].equals(String.valueOf(Type.SUBTASK))) {
                             countTaskLoad++;
-                            Subtask newTask = new Subtask(task[2], task[4], Status.valueOf(task[3]), Integer.parseInt(task[9]),
-                                    task[5] + "," + task[6], Integer.parseInt(task[10]));
-                            newTask.setEndTime(LocalDateTime.parse(task[7] + "," + task[8], newTask.getTIME_FORMAT()));
+                            Subtask newTask = new Subtask(task[2], task[4], Status.valueOf(task[3]), Integer.parseInt(task[8]),
+                                    LocalDateTime.parse(task[5]), Long.parseLong(task[7]));
                             newTask.setId(Integer.parseInt(task[0]));
                             fileBackedTasksManager.subtasks.put(newTask.getId(), newTask);
                         }
@@ -257,6 +252,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
         return fileBackedTasksManager;
     }
+
 }
 
 

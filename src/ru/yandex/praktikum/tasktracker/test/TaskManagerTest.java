@@ -11,6 +11,7 @@ import ru.yandex.praktikum.tasktracker.data.Task;
 import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,17 +22,19 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     abstract T createManager();
 
-    protected Task testSimpleTask = new Task("TestSimple_1", "Test", Status.NEW,
-            "16-07-2022, 16:30", 15);
-    protected Task testSimpleTask2 = new Task("TestSimple_2", "Test", Status.NEW,
-            "16-07-2022, 17:30", 15);
-    protected Task testSimpleTask3 = new Task("TestSimple_3", "Test", Status.NEW,
-            "16-07-2022, 18:30", 15);
-    protected EpicTask testEpicTask = new EpicTask("TestEpic_1", "TestEpic_1", null);
-    protected Subtask testSubtask = new Subtask("TestSubTask_1", "Test", Status.NEW, 1,
-            "16-07-2022, 19:30", 15);
-    protected Subtask testSubtask2 = new Subtask("TestSubTask_2", "Test", Status.NEW, 1,
-            "16-07-2022, 20:30", 15);
+    @BeforeEach
+    void createTasks() {}
+    Task testSimpleTask = new Task("TestSimple_1", "Test", Status.NEW,
+            LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
+    Task testSimpleTask2 = new Task("TestSimple_2", "Test", Status.NEW,
+            LocalDateTime.of(2022, 7, 16, 17, 30), 15L);
+    Task testSimpleTask3 = new Task("TestSimple_3", "Test", Status.NEW,
+            LocalDateTime.of(2022, 7, 16, 18, 30), 15L);
+    EpicTask testEpicTask = new EpicTask("TestEpic_1", "TestEpic_1", null);
+    Subtask testSubtask = new Subtask("TestSubTask_1", "Test", Status.NEW, 1,
+            LocalDateTime.of(2022, 7, 16, 19, 30), 15L);
+    Subtask testSubtask2 = new Subtask("TestSubTask_2", "Test", Status.NEW, 1,
+            LocalDateTime.of(2022, 7, 16, 20, 30), 15L);
 
     @BeforeEach
     private void updateTaskManager() {
@@ -92,7 +95,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void tryUpdateSimpleTaskWithId() {
         manager.addSimpleTask(testSimpleTask);
-        testSimpleTask = new Task("Test 2", "Test", Status.NEW, "16-07-2022, 16:30", 15);
+        testSimpleTask = new Task("Test 2", "Test", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
         manager.updateSimpleTask(1, testSimpleTask);
         testSimpleTask.setId(1);
         assertEquals(testSimpleTask, manager.searchSimpleTaskById(1));
@@ -140,7 +144,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(manager.searchEpicTaskById(1).getId(), manager.searchSubTaskById(2).getEpicId());
         assertEquals(testSubtask.getStartTime(), manager.searchEpicTaskById(1).getStartTime());
         assertEquals(testSubtask2.getEndTime(), manager.searchEpicTaskById(1).getEndTime());
-        assertEquals(75, manager.searchEpicTaskById(1).getDuration().toMinutes());
+        assertEquals(75L, manager.searchEpicTaskById(1).getDuration());
         assertEquals(Status.NEW, manager.searchEpicTaskById(1).getStatus());
         testSubtask.setStatus(Status.DONE);
         manager.updateSubTask(2, testSubtask);
@@ -151,7 +155,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.deleteSubTaskById(3);
         assertEquals(testSubtask.getStartTime(), manager.searchEpicTaskById(1).getStartTime());
         assertEquals(testSubtask.getEndTime(), manager.searchEpicTaskById(1).getEndTime());
-        assertEquals(15, manager.searchEpicTaskById(1).getDuration().toMinutes());
+        assertEquals(15L, manager.searchEpicTaskById(1).getDuration());
         manager.deleteSubTaskById(2);
         assertNull(manager.searchEpicTaskById(1).getStartTime());
         assertNull(manager.searchEpicTaskById(1).getEndTime());
@@ -279,7 +283,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addEpicTask(testEpicTask);
         manager.addSubTask(testSubtask, 1);
         testSubtask = new Subtask(testSubtask.getName(), testSubtask.getDiscription(), Status.DONE, testSubtask.getEpicId(),
-                "16-07-2022, 21:30", 30);
+                LocalDateTime.of(2022, 7, 16, 21, 30), 30L);
         final RuntimeException exception2 = assertThrows(
                 RuntimeException.class,
                 new Executable() {
@@ -305,7 +309,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteAllSubTask() {
+    void tryDeleteAllSubTask() {
         manager.addEpicTask(testEpicTask);
         manager.addSubTask(testSubtask, 1);
         manager.addSubTask(testSubtask2, 1);
@@ -369,13 +373,13 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addSimpleTask(testSimpleTask2);
         testSimpleTask2.setId(2);
         Task testSimpleTask4 = new Task("TestSimple_1", "Test", Status.NEW,
-                "16-07-2022, 17:00", 15);
+                LocalDateTime.of(2022, 7, 16, 17, 0), 15L);
         manager.addSimpleTask(testSimpleTask4);
         testSimpleTask4.setId(3);
         manager.addEpicTask(testEpicTask);
         testEpicTask.setId(4);
         Subtask testSubTask3 = new Subtask("TestSubTask_2", "Test", Status.NEW, 4,
-                "16-07-2022, 16:45", 15);
+                LocalDateTime.of(2022, 7, 16, 16, 45), 15L);
         manager.addSubTask(testSubTask3, 4);
         testSimpleTask4.setId(5);
         List<Task> testPriority = manager.getPrioritizedTasks();
