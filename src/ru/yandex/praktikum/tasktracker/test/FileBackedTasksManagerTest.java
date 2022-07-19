@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
-    private File file = new File(".\\src\\", "testSaveFileEmpty.csv");
+    private File file = new File(".\\src\\", "save.csv");
 
     @Override
     FileBackedTasksManager createManager() {
@@ -22,18 +22,22 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void wouldLoadFromFileWorkCorrect() throws IOException {
-        manager = FileBackedTasksManager.loadFromFile(new File(".\\src\\", "testSaveFileEmptyForLoadTest.csv"));
+        if (!manager.getSimpleTaskList().isEmpty()) {
+            manager.deleteAllSimpleTask();
+        }
+        if (!manager.getEpicTaskList().isEmpty()) {
+            manager.deleteAllEpicTask();
+        }
         assertTrue(manager.getSimpleTaskList().isEmpty());
         assertTrue(manager.getEpicTaskList().isEmpty());
         assertTrue(manager.getSubTaskList().isEmpty());
         assertTrue(manager.getHistory().isEmpty());
-        manager = new FileBackedTasksManager(new File(".\\src\\", "testSaveFileOnlyEpicForLoadTest.csv"));
         manager.addEpicTask(testEpicTask);
-        manager = FileBackedTasksManager.loadFromFile(new File(".\\src\\", "testSaveFileOnlyEpicForLoadTest.csv"));
+        manager = FileBackedTasksManager.loadFromFile(new File(".\\src\\", "save.csv"));
         testEpicTask.setId(1);
         assertEquals(testEpicTask, manager.getEpicTaskList().get(0));
-        manager = manager = FileBackedTasksManager.loadFromFile(new File(".\\src\\",
-                "testSaveFileEmptyHistoryForLoadTest.csv"));
+        manager.addSubTask(testSubtask, 1);
+        manager.addSimpleTask(testSimpleTask);
         assertEquals(1, manager.getSimpleTaskList().size());
         assertEquals(1, manager.getEpicTaskList().size());
         assertEquals(1, manager.getSubTaskList().size());
@@ -42,6 +46,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void wouldSaveInFileWorkCorrectWithoutTasks() throws IOException {
+        if (!manager.getSimpleTaskList().isEmpty()) {
+            manager.deleteAllSimpleTask();
+        }
+        if (!manager.getEpicTaskList().isEmpty()) {
+            manager.deleteAllEpicTask();
+        }
         manager.addSimpleTask(testSimpleTask);
         manager.addSimpleTask(testSimpleTask2);
         manager.deleteAllSimpleTask();
@@ -56,6 +66,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void wouldSaveInFileWorkCorrectWithEpicOnly() throws IOException {
+        if (!manager.getSimpleTaskList().isEmpty()) {
+            manager.deleteAllSimpleTask();
+        }
+        if (!manager.getEpicTaskList().isEmpty()) {
+            manager.deleteAllEpicTask();
+        }
         manager.addEpicTask(testEpicTask);
         BufferedReader br = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
         List<String> readFromFile = new ArrayList<>();
@@ -69,6 +85,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void wouldSaveInFileWorkCorrectWithHistory() throws IOException {
+        if (!manager.getSimpleTaskList().isEmpty()) {
+            manager.deleteAllSimpleTask();
+        }
+        if (!manager.getEpicTaskList().isEmpty()) {
+            manager.deleteAllEpicTask();
+        }
         manager.addEpicTask(testEpicTask);
         manager.addSimpleTask(testSimpleTask);
         manager.addSubTask(testSubtask, 1);

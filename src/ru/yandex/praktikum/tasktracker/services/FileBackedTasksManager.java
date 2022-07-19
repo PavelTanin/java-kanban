@@ -18,7 +18,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         this.file = file;
     }
 
-
     @Override
     public void addSimpleTask(Task task) {
         super.addSimpleTask(task);
@@ -175,7 +174,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     task.getEndTime(), task.getDuration());
         }
     }
-
 
     private String toString(HistoryManager manager) {
         List<Task> history = new ArrayList<>(manager.getHistory());

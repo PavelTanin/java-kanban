@@ -6,7 +6,6 @@ import ru.yandex.praktikum.tasktracker.data.Task;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.TreeSet;
 
 public interface TaskManager {
 

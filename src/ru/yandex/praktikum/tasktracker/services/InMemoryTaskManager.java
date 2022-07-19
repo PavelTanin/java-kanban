@@ -176,7 +176,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
     @Override
     public ArrayList<EpicTask> getEpicTaskList() {
         return new ArrayList<>(epics.values());
@@ -300,7 +299,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
     @Override
     public Subtask searchSubTaskById(int id) {
         if (subtasks.get(id) == null) {
@@ -353,7 +351,6 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-
     protected boolean isTaskCrossOther(Task task) {
         boolean isCross = false;
         List<Task> prioritizedTasksList = getPrioritizedTasks();
@@ -386,7 +383,6 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
     }
-
 
     private int idGenerator() {
         id++;

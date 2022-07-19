@@ -22,19 +22,27 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     abstract T createManager();
 
+    Task testSimpleTask;
+    Task testSimpleTask2;
+    Task testSimpleTask3;
+    EpicTask testEpicTask;
+    Subtask testSubtask;
+    Subtask testSubtask2;
+
     @BeforeEach
-    void createTasks() {}
-    Task testSimpleTask = new Task("TestSimple_1", "Test", Status.NEW,
-            LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
-    Task testSimpleTask2 = new Task("TestSimple_2", "Test", Status.NEW,
-            LocalDateTime.of(2022, 7, 16, 17, 30), 15L);
-    Task testSimpleTask3 = new Task("TestSimple_3", "Test", Status.NEW,
-            LocalDateTime.of(2022, 7, 16, 18, 30), 15L);
-    EpicTask testEpicTask = new EpicTask("TestEpic_1", "TestEpic_1", null);
-    Subtask testSubtask = new Subtask("TestSubTask_1", "Test", Status.NEW, 1,
-            LocalDateTime.of(2022, 7, 16, 19, 30), 15L);
-    Subtask testSubtask2 = new Subtask("TestSubTask_2", "Test", Status.NEW, 1,
-            LocalDateTime.of(2022, 7, 16, 20, 30), 15L);
+    void createTasks() {
+        testSimpleTask = new Task("TestSimple_1", "Test", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
+        testSimpleTask2 = new Task("TestSimple_2", "Test", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 17, 30), 15L);
+        testSimpleTask3 = new Task("TestSimple_3", "Test", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 18, 30), 15L);
+        testEpicTask = new EpicTask("TestEpic_1", "TestEpic_1", null);
+        testSubtask = new Subtask("TestSubTask_1", "Test", Status.NEW, 1,
+                LocalDateTime.of(2022, 7, 16, 19, 30), 15L);
+        testSubtask2 = new Subtask("TestSubTask_2", "Test", Status.NEW, 1,
+                LocalDateTime.of(2022, 7, 16, 20, 30), 15L);
+    }
 
     @BeforeEach
     private void updateTaskManager() {

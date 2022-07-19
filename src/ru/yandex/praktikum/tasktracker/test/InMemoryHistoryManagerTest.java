@@ -1,27 +1,36 @@
 package ru.yandex.praktikum.tasktracker.test;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.praktikum.tasktracker.data.Status;
 import ru.yandex.praktikum.tasktracker.data.Task;
 import ru.yandex.praktikum.tasktracker.services.InMemoryHistoryManager;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
-
-
 class InMemoryHistoryManagerTest {
 
 
-    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-    Task task = new Task("Test", "Test", Status.NEW,
-            LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
-    Task task2 = new Task("Test2", "Test2", Status.NEW,
-            LocalDateTime.of(2022, 7, 16, 18, 30), 15L);
-    Task task3 = new Task("Test2", "Test2", Status.NEW,
-            LocalDateTime.of(2022, 7, 16, 19, 30), 15L);
+    InMemoryHistoryManager inMemoryHistoryManager;
+
+    Task task;
+    Task task2;
+    Task task3;
+
+    @BeforeEach
+    void createManagerAndTasksForTest() {
+        inMemoryHistoryManager = new InMemoryHistoryManager();
+        task = new Task("Test", "Test", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 16, 30), 15L);
+        task2 = new Task("Test2", "Test2", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 18, 30), 15L);
+        task3 = new Task("Test2", "Test2", Status.NEW,
+                LocalDateTime.of(2022, 7, 16, 19, 30), 15L);
+    }
 
 
     @Test
