@@ -23,7 +23,7 @@ public class Manager<T extends TaskManager> {
         return taskManager;
     }
 
-    public static HistoryManager getDefaultHistory(){
+    public static HistoryManager getDefaultHistory() {
         return historyManager;
     }
 }

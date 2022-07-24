@@ -105,6 +105,6 @@ class HttpTaskManagerTest extends FileBackedTasksManagerTest {
         assertEquals("1,EPIC,TestEpic_1,NEW,TestEpic_1,2022-07-16T19:30,2022-07-16T19:45,15", readFrom.get(0));
         assertEquals("2,TASK,TestSimple_1,NEW,Test,2022-07-16T16:30,2022-07-16T16:45,15", readFrom.get(1));
         assertEquals("3,SUBTASK,TestSubTask_1,NEW,Test,2022-07-16T19:30,2022-07-16T19:45,15,1", readFrom.get(2));
-        assertEquals("2", readFrom.get(readFrom.size()-1));
+        assertEquals("2", readFrom.get(readFrom.size() - 1));
     }
 }

@@ -255,7 +255,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 new Executable() {
                     @Override
                     public void execute() {
-                        manager.getSubTaskOfEpicList(2);;
+                        manager.getSubTaskOfEpicList(2);
+                        ;
                     }
                 });
         assertEquals("Нет задачи с таким ID!", exception2.getMessage());

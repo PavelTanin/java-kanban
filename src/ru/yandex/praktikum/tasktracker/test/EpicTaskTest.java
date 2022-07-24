@@ -23,14 +23,14 @@ class EpicTaskTest {
             LocalDateTime.of(2022, 7, 16, 20, 30), 15L);
 
     @Test
-    void statusNewWhenEmptySubtaskList () {
+    void statusNewWhenEmptySubtaskList() {
         EpicTask epicTask = new EpicTask("Test", "Test", null);
         manager.addEpicTask(epicTask);
         assertEquals(Status.NEW, epicTask.getStatus());
     }
 
     @Test
-    void statusNewWhenAllSubtaskIsNew () {
+    void statusNewWhenAllSubtaskIsNew() {
         manager.addEpicTask(epicTask);
         manager.addSubTask(subtask1, 1);
         manager.addSubTask(subtask2, 1);
@@ -39,7 +39,7 @@ class EpicTaskTest {
     }
 
     @Test
-    void statusDoneWhenAllSubtaskIsDone () {
+    void statusDoneWhenAllSubtaskIsDone() {
         manager.addEpicTask(epicTask);
         manager.addSubTask(subtask1, 1);
         manager.addSubTask(subtask2, 1);
@@ -57,7 +57,7 @@ class EpicTaskTest {
     }
 
     @Test
-    void statusInProgressWhenSubtaskStatusIsDoneAndNew () {
+    void statusInProgressWhenSubtaskStatusIsDoneAndNew() {
         manager.addEpicTask(epicTask);
         manager.addSubTask(subtask1, 1);
         manager.addSubTask(subtask2, 1);
@@ -72,7 +72,7 @@ class EpicTaskTest {
     }
 
     @Test
-    void statusInProgressWhenAllSubtaskInProgress () {
+    void statusInProgressWhenAllSubtaskInProgress() {
         manager.addEpicTask(epicTask);
         manager.addSubTask(subtask1, 1);
         manager.addSubTask(subtask2, 1);

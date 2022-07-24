@@ -19,7 +19,7 @@ public class KVTaskClient {
         this.url = URI.create(url);
         this.key = key;
         httpClient = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url+"/register")).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url + "/register")).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         apiToken = response.body();
     }
