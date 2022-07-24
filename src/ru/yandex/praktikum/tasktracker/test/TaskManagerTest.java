@@ -20,7 +20,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     public T manager;
 
-    abstract T createManager();
+    abstract T createManager() throws IOException, InterruptedException;
 
     Task testSimpleTask;
     Task testSimpleTask2;
@@ -45,7 +45,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @BeforeEach
-    private void updateTaskManager() {
+    private void updateTaskManager() throws IOException, InterruptedException {
         manager = createManager();
     }
 

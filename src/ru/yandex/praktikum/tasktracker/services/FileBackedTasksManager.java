@@ -18,6 +18,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         this.file = file;
     }
 
+    public FileBackedTasksManager() {
+        this.file = null;
+    }
+
+
     @Override
     public void addSimpleTask(Task task) {
         super.addSimpleTask(task);
@@ -116,7 +121,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return super.getHistory();
     }
 
-    private void save() {
+    protected void save() {
         Map<Integer, Task> allTasks = new HashMap<>();
         allTasks.putAll(simpleTasks);
         allTasks.putAll(epics);
@@ -152,7 +157,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
     }
 
-    private String toString(Task task) {
+    protected String toString(Task task) {
         if (task instanceof EpicTask) {
             if (((EpicTask) task).getSubtasks().isEmpty()) {
                 return String.format("%s,%s,%s,%s,%s,null,null,null\n", task.getId(), Type.EPIC, task.getName(),
@@ -175,7 +180,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
     }
 
-    private String toString(HistoryManager manager) {
+    protected String toString(HistoryManager manager) {
         List<Task> history = new ArrayList<>(manager.getHistory());
         List<Integer> idList = new ArrayList<>();
         for (Task item : history) {
@@ -201,12 +206,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     if (task.length > 1) {
                         if (task[1].equals(String.valueOf(Type.TASK))) {
                             countTaskLoad++;
-                            Task newTask = new Task(task[2], task[4], Status.valueOf(task[3]), LocalDateTime.parse(task[5]), Long.parseLong(task[7]));
+                            Task newTask = new Task(task[2], task[4], Status.valueOf(task[3]),
+                                    LocalDateTime.parse(task[5]), Long.parseLong(task[7]));
                             newTask.setId(Integer.parseInt(task[0]));
                             fileBackedTasksManager.simpleTasks.put(newTask.getId(), newTask);
                         } else if (task[1].equals(String.valueOf(Type.EPIC))) {
                             countTaskLoad++;
-                            EpicTask newTask = new EpicTask(task[2], task[4], null);
+                            EpicTask newTask = new EpicTask(task[2], task[4], Status.valueOf(task[3]));
                             newTask.setId(Integer.parseInt(task[0]));
                             if (!task[3].equals("null")) {
                                 newTask.setStatus(Status.valueOf(task[3]));
@@ -222,8 +228,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                             fileBackedTasksManager.epics.put(newTask.getId(), newTask);
                         } else if (task[1].equals(String.valueOf(Type.SUBTASK))) {
                             countTaskLoad++;
-                            Subtask newTask = new Subtask(task[2], task[4], Status.valueOf(task[3]), Integer.parseInt(task[8]),
-                                    LocalDateTime.parse(task[5]), Long.parseLong(task[7]));
+                            Subtask newTask = new Subtask(task[2], task[4], Status.valueOf(task[3]),
+                                    Integer.parseInt(task[8]), LocalDateTime.parse(task[5]), Long.parseLong(task[7]));
+                            newTask.setStatus(Status.valueOf(task[3]));
                             newTask.setId(Integer.parseInt(task[0]));
                             fileBackedTasksManager.subtasks.put(newTask.getId(), newTask);
                         }

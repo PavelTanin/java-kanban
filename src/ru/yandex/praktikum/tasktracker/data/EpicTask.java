@@ -8,7 +8,8 @@ public class EpicTask extends Task {
     private final ArrayList<Integer> subtasks = new ArrayList<>();
 
     public EpicTask(String name, String discription, Status status) {
-        super(name, discription, null);
+        super(name, discription, status);
+        this.status = null;
         this.startTime = null;
         this.duration = null;
         this.endTime = null;

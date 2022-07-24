@@ -27,7 +27,6 @@ public class Task {
     public Task(String name, String discription, Status status) {
         this.name = name;
         this.discription = discription;
-        this.status = status;
     }
 
     public String getName() {

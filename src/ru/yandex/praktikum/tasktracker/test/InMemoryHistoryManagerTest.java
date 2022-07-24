@@ -6,10 +6,10 @@ import ru.yandex.praktikum.tasktracker.data.Status;
 import ru.yandex.praktikum.tasktracker.data.Task;
 import ru.yandex.praktikum.tasktracker.services.InMemoryHistoryManager;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class InMemoryHistoryManagerTest {
