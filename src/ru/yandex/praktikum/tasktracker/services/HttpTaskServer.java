@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import ru.yandex.praktikum.tasktracker.adapters.LocalDateAdapter;
 import ru.yandex.praktikum.tasktracker.data.*;
 import ru.yandex.praktikum.tasktracker.interfaces.TaskManager;
 
@@ -36,13 +37,13 @@ public class HttpTaskServer {
     }
 
     class TaskHandler implements HttpHandler {
+
+        GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls().serializeNulls()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter());
+        Gson gson = gsonBuilder.create();
+
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.setPrettyPrinting()
-                    .serializeNulls()
-                    .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter());
-            Gson gson = gsonBuilder.create();
             String response = null;
             String method = exchange.getRequestMethod();
             String path = exchange.getRequestURI().getPath();

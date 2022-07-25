@@ -2,6 +2,7 @@ package ru.yandex.praktikum.tasktracker.services;
 
 import com.google.gson.Gson;
 import ru.yandex.praktikum.tasktracker.data.*;
+import ru.yandex.praktikum.tasktracker.exceptions.KVClientStartException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,10 +18,14 @@ public class HttpTaskManager extends FileBackedTasksManager {
     private final URI url;
     private final String key;
 
-    public HttpTaskManager(String url, String key) throws IOException, InterruptedException {
+    public HttpTaskManager(String url, String key) {
         this.url = URI.create(url);
         this.key = key;
-        this.kvTaskClient = new KVTaskClient(url, key);
+        try {
+            this.kvTaskClient = new KVTaskClient(url, key);
+        } catch (IOException | InterruptedException e) {
+            throw new KVClientStartException("Произошла ошибка при попытке подключиться к серверу");
+        }
     }
 
     @Override

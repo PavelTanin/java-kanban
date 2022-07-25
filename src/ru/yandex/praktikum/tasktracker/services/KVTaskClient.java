@@ -47,7 +47,7 @@ public class KVTaskClient {
                 .build();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            result = gson.fromJson(response.body(), String.class);
+            result = response.body();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
