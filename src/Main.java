@@ -21,6 +21,8 @@ public class Main {
         System.out.println(kvTaskClient.load("Test2"));
         System.out.println(kvTaskClient.load("Test3"));
 
+        kvServer.stop();
+
     }
 }
 
