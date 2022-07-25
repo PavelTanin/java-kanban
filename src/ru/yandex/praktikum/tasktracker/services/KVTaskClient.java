@@ -1,7 +1,5 @@
 package ru.yandex.praktikum.tasktracker.services;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -38,7 +36,6 @@ public class KVTaskClient {
     }
 
     public String load(String key) {
-        Gson gson = new Gson();
         String result = null;
         URI uri = URI.create(url + "/load/" + key + "?API_TOKEN=" + apiToken);
         HttpRequest request = HttpRequest.newBuilder()

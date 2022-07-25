@@ -1,6 +1,5 @@
 package ru.yandex.praktikum.tasktracker.services;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -29,7 +28,6 @@ public class KVServer {
 
     private void load(HttpExchange h) throws IOException {
         String response = null;
-        Gson gson = new Gson();
         if ("GET".equals(h.getRequestMethod())) {
             String key = h.getRequestURI().getPath().substring("/save/".length());
             if (key.isEmpty()) {
