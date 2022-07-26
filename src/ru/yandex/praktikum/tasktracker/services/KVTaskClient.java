@@ -1,10 +1,22 @@
 package ru.yandex.praktikum.tasktracker.services;
 
+
+
+import com.google.gson.Gson;
+
+
+
 import java.io.IOException;
+
 import java.net.URI;
+
 import java.net.http.HttpClient;
+
 import java.net.http.HttpRequest;
+
 import java.net.http.HttpResponse;
+
+
 
 public class KVTaskClient {
 
@@ -12,6 +24,8 @@ public class KVTaskClient {
     private final HttpClient httpClient;
     private final String apiToken;
     private final String key;
+
+    Gson gson = new Gson();
 
     public KVTaskClient(String url, String key) throws IOException, InterruptedException {
         this.url = URI.create(url);
@@ -44,7 +58,7 @@ public class KVTaskClient {
                 .build();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            result = response.body();
+            result = gson.fromJson(response.body(), String.class);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

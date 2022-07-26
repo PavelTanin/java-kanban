@@ -18,6 +18,8 @@ public class HttpTaskManager extends FileBackedTasksManager {
     private final URI url;
     private final String key;
 
+    Gson gson = new Gson();
+
     public HttpTaskManager(String url, String key) {
         this.url = URI.create(url);
         this.key = key;
@@ -29,8 +31,8 @@ public class HttpTaskManager extends FileBackedTasksManager {
     }
 
     @Override
+
     protected void save() {
-        Gson gson = new Gson();
         Map<Integer, Task> allTasks = new HashMap<>();
         allTasks.putAll(simpleTasks);
         allTasks.putAll(epics);
@@ -46,6 +48,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
         String json = gson.toJson(readyString);
         kvTaskClient.put(key, json);
     }
+
 
     public static HttpTaskManager loadFromServer(String url, String key) throws IOException, InterruptedException {
         HttpTaskManager httpTaskManager = new HttpTaskManager(url, key);

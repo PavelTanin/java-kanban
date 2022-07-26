@@ -27,7 +27,6 @@ class HttpTaskManagerTest extends FileBackedTasksManagerTest {
         return (HttpTaskManager) new HttpTaskManager("http://localhost:8078", "Test");
     }
 
-
     @AfterEach
     void stopKVServer() {
         kvServer.stop();

@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.tasktracker.services;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -17,6 +18,9 @@ public class KVServer {
     private final String apiToken;
     private final HttpServer server;
     private final Map<String, String> data = new HashMap<>();
+
+    Gson gson = new Gson();
+
 
     public KVServer() throws IOException {
         apiToken = generateApiToken();
@@ -45,7 +49,6 @@ public class KVServer {
             System.out.println("/save ждёт GET-запрос, а получил: " + h.getRequestMethod());
             h.sendResponseHeaders(405, 0);
         }
-
     }
 
     private void save(HttpExchange h) throws IOException {
